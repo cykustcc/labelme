@@ -18,31 +18,31 @@ my $im_dir;
 my $im_file;
 if($mode eq "i") {
     my $fname = $LM_HOME . "annotationCache/DirLists/$collection.txt";
-    
+
     if(!open(FP,$fname)) {
 	print "Status: 404\n\n";
 	return;
     }
-    
+
     open(NUMLINES,"wc -l $fname |");
     my $numlines = <NUMLINES>;
     ($numlines,my $bar) = split(" DirLists",$numlines);
     close(NUMLINES);
-    
+
     my $line = int(rand($numlines))+1;
-    
+
     for(my $i=1; $i < $line; $i++) {
 	my $garbage = readline(FP);
     }
-    
+
     my $fileinfo = readline(FP);
     ($im_dir,$im_file) = split(",",$fileinfo);
     $im_file =~ tr/"\n"//d; # remove trailing newline
-    
+
     close(FP);
 }
 elsif($mode eq "c") {
-    opendir(DIR,$LM_HOME . "Images/users/$username/$collection") || die("Cannot read collections");
+    opendir(DIR,$LM_HOME . "Images/$collection") || die("Cannot read collections");
     my @all_images = readdir(DIR);
     closedir(DIR);
 
@@ -67,7 +67,7 @@ elsif($mode eq "f") {
 
     my $do_rand = 1;
     my $i = 0;
-    if($image =~ m/\.jpg$/) {
+    if($image =~ m/\.png$/) {
 	$do_rand = 0;
 
 	# Get location of image in array:
@@ -89,30 +89,30 @@ elsif($mode eq "f") {
 	$im_dir = $folder;
 	$im_file = $all_images[$i];
     }
-    while(!($im_file =~ m/\.jpg$/))
+    while(!($im_file =~ m/\.png$/))
 
 #    my $fname = "DirLists/$collection.txt";
-#    
+#
 #    if(!open(FP,$fname)) {
 #	print "Status: 404\n\n";
 #	return;
 #    }
-#    
+#
 #    open(NUMLINES,"wc -l $fname |");
 #    my $numlines = <NUMLINES>;
 #    ($numlines,my $bar) = split(" DirLists",$numlines);
 #    close(NUMLINES);
-#    
+#
 #    my $line = int(rand($numlines))+1;
-#    
+#
 #    for(my $i=1; $i < $line; $i++) {
 #	my $garbage = readline(FP);
 #    }
-#    
+#
 #    my $fileinfo = readline(FP);
 #    ($im_dir,$im_file) = split(",",$fileinfo);
 #    $im_file =~ tr/"\n"//d; # remove trailing newline
-#    
+#
 #    close(FP);
 }
 
